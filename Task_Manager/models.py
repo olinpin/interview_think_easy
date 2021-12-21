@@ -4,10 +4,11 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
+
 class Tasks(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    text = models.CharField("Text", max_length=128)
-    done = models.BooleanField("Done", default=False)
+    user = models.ManyToManyField(User)
+    text = models.CharField("Text", max_length=128, blank=True)
+    done = models.BooleanField("Done", default=False, blank=True)
 
     def __str__(self):
         return f"{self.text}"
@@ -15,3 +16,5 @@ class Tasks(models.Model):
     class Meta:
         verbose_name = "Tasks"
         verbose_name_plural = "Tasks"
+
+#User.add_to_class('new_field', models.(Tasks, blank=True, null=True,  on_delete=models.CASCADE))
