@@ -1,0 +1,47 @@
+{% extends "Task_Manager/layout.html" %}
+{% load static %}
+
+{% block head %}
+<title>Registration</title>
+<!-- My own CSS  -->
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+<!-- My own JS -->
+<script type="text/javascript" src="{% static 'js/register.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+<div class="row">
+	<aside class="col-sm-4 mx-auto">
+
+<div class="card">
+    {% if form.errors %}
+    <p>We're sorry, but your username and password don't match</p>
+  {% endif %}
+<article class="card-body">
+<a href="{% url 'tasks:login' %}" class="float-right btn btn-outline-primary">Log in</a>
+<h4 class="card-title mb-4 mt-1">Register</h4>
+<form action="{% url 'tasks:registration' %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+    	<label>Your username:*</label>
+        <input name="username" id='login' class="form-control" placeholder="Username" type="Username">
+    </div>
+    <div class="form-group">
+    	<label>Your password:*</label>
+        <input name="password" id="password" class="form-control" placeholder="********" type="password">
+    </div>
+    <div class="form-group">
+    	<label>Your password again:*</label>
+        <input name="password2" id='password2' class="form-control" placeholder="********" type="password">
+        <label id="match" style="color: #FF0000; padding-top:10px; display:none;">The passwords don't match</label>
+        <label id="noPas" style="color: #FF0000; padding-top:10px; display:block;">All fields must be filled out</label>
+    
+    </div>
+    <div class="form-group">
+        <button type="submit" id="sign" class="btn btn-primary btn-block"> Sign up  </button>
+    </div>                                                        
+</form>
+</article>
+</div>
+
+{% endblock %}

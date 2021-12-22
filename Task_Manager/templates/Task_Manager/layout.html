@@ -34,14 +34,23 @@
                   <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
                 </li>
                 {% endif %}
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'tasks:login' %}">Login</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'tasks:registration' %}">Register</a>
+                </li>
                 {% endif %}
               </ul>
+              {% if user.is_authenticated %}
               <ul class="navbar-nav ms-auto" style="margin-right: 10px">
                 <li class="nav-item">
-                    <a href="{% url 'tasks:logout' %}" class="nav-link">Odhlásit se</a>
+                    <a href="{% url 'tasks:logout' %}" class="nav-link">Log out</a>
 
                   </li>
               </ul>
+              {% endif %}
           </nav>
         {% if good %}
         <div class="row">

@@ -1,10 +1,42 @@
 {% extends "Task_Manager/layout.html" %}
-
+{% load static %}
 
 {% block head %}
 <title>Homepage</title>
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+<script>
+    var sURL = "{% url 'tasks:addTask' %}"
+    var username = "{{ request.user.username }}"
+    var URLc = "{% url 'tasks:change' %}"
+</script>
+<script type="text/javascript" src="{% static 'js/index.js' %}"></script>
 {% endblock %}
 
 {% block body %}
-<h1>Body</h1>
+<h1>{{ request.user.username }}'s tasks</h1>
+{% csrf_token %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-white">
+                <div class="card-body">
+                    <form>
+                        <div class="add-items d-flex"> <input id="taskInput" type="text" class="form-control todo-list-input" placeholder="Add task">
+                            <button id="submit" class="add btn btn-primary font-weight-bold todo-list-add-btn">Add</button> 
+                        </div>
+                    </form>
+                    {% for task in tasks %}
+                    <div class="todo-list" id="todo-list">
+                        <div class="todo-item">
+                            {% if task.done %}<button style="color:green" class="bi bi-check-circle-fill change" id="{{ task.id }}"></button>{% else %}<button style="color:red"class="bi bi-x-circle-fill change" id="{{ task.id }}"></button>{% endif %}
+                            <span>{{ task.text }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

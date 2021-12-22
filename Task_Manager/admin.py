@@ -10,14 +10,15 @@ from django.contrib.auth.admin import UserAdmin
 @admin.register(Tasks)
 class TasksAdmin(admin.ModelAdmin):
     list_display = ('text', 'done')
-    filter_horizontal = ('user',)
+    list_editable = ("done", )
 
-class Inline(admin.TabularInline):
-    model = Tasks.user.through
-    verbose_name = 'Task'
-    verbose_name_plural = "Tasks"
 
 ### USERS ###
+
+class Inline(admin.TabularInline):
+    model = Tasks
+    verbose_name = 'Task'
+    verbose_name_plural = "Tasks"
 
 
 UserAdmin.inlines = [

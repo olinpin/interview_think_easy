@@ -6,7 +6,9 @@ from django.contrib.auth.models import User
 
 
 class Tasks(models.Model):
-    user = models.ManyToManyField(User)
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
+    #user = models.ManyToManyField(User)
     text = models.CharField("Text", max_length=128, blank=True)
     done = models.BooleanField("Done", default=False, blank=True)
 
