@@ -1,0 +1,40 @@
+{% extends "Task_Manager/layout.html" %}
+{% load static %}
+
+{% block head %}
+<title>Login</title>
+<!-- My own CSS  -->
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+
+{% block body %}
+<div class="row">
+	<aside class="col-sm-4 mx-auto">
+
+<div class="card">
+    {% if form.errors %}
+    <p>We're sorry, but your username and password don't match</p>
+  {% endif %}
+<article class="card-body">
+<!--<a href="" class="float-right btn btn-outline-primary">Sign up</a> -->
+<h4 class="card-title mb-4 mt-1">Log in</h4>
+<form action="{% url 'tasks:login' %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+    	<label>Your username:</label>
+        <input name="username" class="form-control" placeholder="Uživatelské jméno" type="Username">
+    </div> <!-- form-group// -->
+    <div class="form-group">
+    	<label>Your password:</label>
+        <input name="password" class="form-control" placeholder="********" type="password">
+    </div> <!-- form-group// --> 
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block"> Log in  </button>
+    </div> <!-- form-group// -->                                                           
+</form>
+</article>
+</div> <!-- card.// -->
+
+
+
+{% endblock %}
