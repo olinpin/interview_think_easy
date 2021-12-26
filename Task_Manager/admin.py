@@ -9,7 +9,7 @@ from django.contrib.auth.admin import UserAdmin
 
 @admin.register(Tasks)
 class TasksAdmin(admin.ModelAdmin):
-    list_display = ('text', 'done')
+    list_display = ('title', 'text', 'done')
     list_editable = ("done", )
 
 

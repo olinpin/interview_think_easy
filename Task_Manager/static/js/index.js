@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // create a li and set the inner html to the value of the text input
         const li = document.createElement('li');
         li.innerHTML = document.querySelector("#taskInput").value;
+        li.innerHTML = document.querySelector("#title").value + "-" + li.innerHTML
         // create a button and give it some css
         const button = document.createElement('button');
         button.className = 'bi bi-x-circle-fill change';
@@ -21,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
             url: sURL,
             data: {
                 username: username,
+                title:document.querySelector("#title").value,
                 text:document.querySelector("#taskInput").value,
                 csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
             },
@@ -29,10 +31,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 button.id = data.id;
                 li.appendChild(button);
                 const div = document.createElement('div')
-                div.innerHTML = `<div class="todo-item"> <button style="color:red"class="bi bi-x-circle-fill change" id="${data.id}"></button> <span>${document.querySelector("#taskInput").value}</span> </div>`
+                div.innerHTML = `<div class="todo-item"> <button style="color:red"class="bi bi-x-circle-fill change" id="${data.id}"></button> <span>${document.querySelector("#title").value} - ${document.querySelector("#taskInput").value}</span> </div>`
                 document.querySelector("#todo-list").append(div);
                 // clear the input field
                 document.querySelector("#taskInput").value = "";
+                document.querySelector("#title").value = "";
             }
         })
 

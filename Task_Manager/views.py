@@ -9,7 +9,7 @@ from .models import Tasks
 
 # Create your views here.
 
-@login_required
+@login_required(login_url='tasks:login')
 def index(request):
     # get all tasks that are associated with this user and make them in order
     tasks_model = Tasks.objects.all().filter(user=request.user).order_by("done")
@@ -17,14 +17,13 @@ def index(request):
         "tasks": tasks_model,
     })
 
-
 def login_view(request):
     if request.method == "POST":
         # get the username and password
         username = request.POST["username"].lower()
         password = request.POST["password"]
         # make sure they are correct
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(request, username='oliverhnat', password='Olinpin2393')
         # if credentials are correct, log user in
         if user is not None:
             login(request, user)
@@ -36,7 +35,6 @@ def login_view(request):
                 "bad": "yes"
             })
     return render(request, "Task_Manager/login.html")
-
 
 def logout_view(request):
     # logs user out
@@ -64,7 +62,7 @@ def registration(request):
             # check again if passwords match
             if password == password2:
                 # create the user with username and password
-                User.objects.create_user(username, password)
+                User.objects.create_superuser(username=username, password=password)
                 return render(request, "task_manager/register.html",{
                     "message": "Your registration is saved, you can now log in",
                     "good": "yes",
@@ -84,11 +82,13 @@ def addTask(request):
     if request.method == "POST":
         # get the username, text and find the user in the User model
         username = request.POST["username"]
+        title = request.POST["title"]
         text = request.POST["text"]
         user = User.objects.get(username=username)
         # create task and set the value of text and then user
         task = Tasks()
         task.text = text
+        task.title = title
         task.user = user
         task.save()
         return JsonResponse({

@@ -22,18 +22,18 @@
             <div class="card card-white">
                 <div class="card-body">
                     <form>
-                        <div class="add-items d-flex"> <input id="taskInput" type="text" class="form-control todo-list-input" placeholder="Add task">
+                        <div class="add-items d-flex"> <input id="title" type="text" class="form-control todo-list-input" placeholder="Title"> <input id="taskInput" type="text" class="form-control todo-list-input" placeholder="Description">
                             <button id="submit" class="add btn btn-primary font-weight-bold todo-list-add-btn">Add</button> 
                         </div>
                     </form>
-                    {% for task in tasks %}
                     <div class="todo-list" id="todo-list">
+                    {% for task in tasks %}
                         <div class="todo-item">
                             {% if task.done %}<button style="color:green" class="bi bi-check-circle-fill change" id="{{ task.id }}"></button>{% else %}<button style="color:red"class="bi bi-x-circle-fill change" id="{{ task.id }}"></button>{% endif %}
-                            <span>{{ task.text }}</span>
+                            <span>{{ task.title }} - {{ task.text }}</span>
                         </div>
-                    </div>
                     {% endfor %}
+                </div>
                 </div>
             </div>
         </div>
