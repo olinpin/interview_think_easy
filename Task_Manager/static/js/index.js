@@ -1,5 +1,6 @@
 // when the page loads
 document.addEventListener("DOMContentLoaded", () => {
+    name_change()
     document.querySelector('form').onsubmit = () => {
         // create a li and set the inner html to the value of the text input
         const li = document.createElement('li');
@@ -21,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
             type:'POST',
             url: sURL,
             data: {
-                username: username,
+                username: document.querySelector("#username").innerHTML,
                 title:document.querySelector("#title").value,
                 text:document.querySelector("#taskInput").value,
                 csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
@@ -61,6 +62,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 }
             })
+        }
+    })
+    document.querySelectorAll('.buttons').forEach(button => {
+        button.onclick = function() {
+            show(button.getAttribute("name"));
         }
     })
 })

@@ -1,4 +1,5 @@
 from django.http import HttpResponseRedirect, JsonResponse
+from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
@@ -6,15 +7,20 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.contrib import messages
 from .models import Tasks
+import json
+from django.core import serializers
 
 # Create your views here.
 
 @login_required(login_url='tasks:login')
 def index(request):
     # get all tasks that are associated with this user and make them in order
-    tasks_model = Tasks.objects.all().filter(user=request.user).order_by("done")
+    #tasks_model = Tasks.objects.all().filter(user=request.user).order_by("done")
+    tasks_model = Tasks.objects.all().order_by("done")
+    users = User.objects.all()
     return render(request, 'Task_Manager/index.html', {
         "tasks": tasks_model,
+        "users": users,
     })
 
 def login_view(request):
@@ -98,11 +104,12 @@ def addTask(request):
 
 # this function changes the 'done' field of task based on id
 def change(request):
-    id = request.POST['id']
-    task = Tasks.objects.get(id=id)
-    task.done = not task.done
-    task.save()
-    return JsonResponse({
-        "code":400,
-        "done": task.done,
-        })
+    if request.method == "POST":
+        id = request.POST['id']
+        task = Tasks.objects.get(id=id)
+        task.done = not task.done
+        task.save()
+        return JsonResponse({
+            "code":400,
+            "done": task.done,
+            })

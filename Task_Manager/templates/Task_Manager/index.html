@@ -3,40 +3,115 @@
 
 {% block head %}
 <title>Homepage</title>
+<style>
+    .page {
+        display: none;
+    }
+</style>
 <link rel="stylesheet" href="{% static 'css/index.css' %}">
 <script>
     var sURL = "{% url 'tasks:addTask' %}"
     var username = "{{ request.user.username }}"
     var URLc = "{% url 'tasks:change' %}"
+
+    // shows either "choose" or "logged" and hides the other one
+    function show(page) {
+        // hide both pages
+        document.querySelectorAll(".page").forEach(page => {
+            page.style.display = 'none';
+        });
+
+        document.querySelector("#users").value = username
+        name_change()
+        // show the correct page
+        document.querySelector(`#${page}`).style.display = "block";
+    }    
+    function name_change() {
+        var username = document.querySelector("#users").value;
+        document.querySelector("#username").innerHTML = username;
+        document.querySelector("#todo-list").innerHTML = '';
+
+        // create a li and set the inner html to the value of the text input
+        {% for task in tasks %}
+        if ('{{ task.user }}' == username) {
+            const li = document.createElement('li');
+            li.innerHTML = '{{ task.title }}' + "-" + '{{ task.text }}'
+            // create a button and give it some css
+            const button = document.createElement('button');
+            button.style.background = "unset";
+            button.style.cursor = 'pointer';
+            button.style.border = 'unset';
+            button.style.margin = 'unset';
+            button.style.padding = 'unset';
+            button.style.textAlign = 'center'
+            button.id = {{ task.id }};
+            li.appendChild(button);
+            const div = document.createElement('div')
+            if ('{{ task.done }}' == "False") {
+                div.innerHTML = '<div class="todo-item"><button style="color:red"class="bi bi-x-circle-fill change" id="{{ task.id }}"></button> <span>{{ task.title }} - {{ task.text }}</span> </div>'
+            } else {
+                div.innerHTML = '<div class="todo-item"><button style="color:#007500"class="bi bi-check-circle-fill change" id="{{ task.id }}"></button> <span>{{ task.title }} - {{ task.text }}</span> </div>'
+            }
+                document.querySelector("#todo-list").append(div);
+            // clear the input field
+            document.querySelector("#taskInput").value = "";
+            document.querySelector("#title").value = "";
+        }
+        {% endfor %}
+    }
 </script>
 <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
 {% endblock %}
 
 {% block body %}
-<h1>{{ request.user.username }}'s tasks</h1>
 {% csrf_token %}
+<div>
+    <button name="choose" class="buttons">Choose users</button>
+    <button name="logged" class="buttons">Logged in User</button>
+</div>
+
+<div id="choose" class="page">
+    <label for="users">Choose user:</label>
+    <div>
+        <select name="users" id="users" onchange="name_change()">
+            {% for user in users %}
+            {% if user.username == request.user.username %}
+            <option value="{{ user }}" default>{{ user }}</option>
+            {% else %}
+            <option value="{{ user }}">{{ user }}</option>
+            {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
 
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="card card-white">
+                <h1><span id="username">{{ request.user.username }}</span>'s tasks</h1>
                 <div class="card-body">
                     <form>
                         <div class="add-items d-flex"> <input id="title" type="text" class="form-control todo-list-input" placeholder="Title"> <input id="taskInput" type="text" class="form-control todo-list-input" placeholder="Description">
                             <button id="submit" class="add btn btn-primary font-weight-bold todo-list-add-btn">Add</button> 
                         </div>
                     </form>
+                    <div id="logged" class="page"></div>
                     <div class="todo-list" id="todo-list">
-                    {% for task in tasks %}
-                        <div class="todo-item">
-                            {% if task.done %}<button style="color:green" class="bi bi-check-circle-fill change" id="{{ task.id }}"></button>{% else %}<button style="color:red"class="bi bi-x-circle-fill change" id="{{ task.id }}"></button>{% endif %}
-                            <span>{{ task.title }} - {{ task.text }}</span>
+                        
+                            {% for task in tasks %}
+                                <div class="todo-item">
+                                    {% if task.done %}<button style="color:green" class="bi bi-check-circle-fill change" id="{{ task.id }}"></button>{% else %}<button style="color:red"class="bi bi-x-circle-fill change" id="{{ task.id }}"></button>{% endif %}
+                                    <span>{{ task.title }} - {{ task.text }}</span>
+                                </div>
+                            {% endfor %}
                         </div>
-                    {% endfor %}
                 </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 {% endblock %}

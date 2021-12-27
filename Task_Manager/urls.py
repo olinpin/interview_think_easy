@@ -13,5 +13,5 @@ urlpatterns = [
 
     ### FUNCTIONS ###
     path('addTask', views.addTask, name="addTask"),
-    path('change', views.change, name="change")
+    path('change', views.change, name="change"),
 ]
