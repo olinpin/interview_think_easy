@@ -35,3 +35,14 @@ body{
     border-radius: calc(.15rem - 1px);
     box-shadow: 0 1px 15px rgba(0,0,0,0.04), 0 1px 6px rgba(0,0,0,0.04);
 }
+
+div > .buttons {
+    margin-bottom: 1vh;
+}
+
+#choose {
+    max-width: fit-content;
+    margin: 0 auto;
+    margin-bottom: 1vh;
+    text-align: center;
+}

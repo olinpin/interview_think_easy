@@ -13,6 +13,7 @@
     var sURL = "{% url 'tasks:addTask' %}"
     var username = "{{ request.user.username }}"
     var URLc = "{% url 'tasks:change' %}"
+    var added = [];
 
     // shows either "choose" or "logged" and hides the other one
     function show(page) {
@@ -58,6 +59,11 @@
             document.querySelector("#title").value = "";
         }
         {% endfor %}
+        added.forEach(elem => {
+            if(elem.username == username) {
+                document.querySelector("#todo-list").append(elem.div);
+            }
+        })
     }
 </script>
 <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
@@ -65,26 +71,24 @@
 
 {% block body %}
 {% csrf_token %}
-<div>
-    <button name="choose" class="buttons">Choose users</button>
-    <button name="logged" class="buttons">Logged in User</button>
-</div>
-
-<div id="choose" class="page">
-    <label for="users">Choose user:</label>
-    <div>
-        <select name="users" id="users" onchange="name_change()">
-            {% for user in users %}
-            {% if user.username == request.user.username %}
-            <option value="{{ user }}" default>{{ user }}</option>
-            {% else %}
-            <option value="{{ user }}">{{ user }}</option>
-            {% endif %}
-            {% endfor %}
-        </select>
+<div style="text-align: center;">
+    <button name="choose" class="buttons btn-primary btn">Choose users</button>
+    <button name="logged" class="buttons btn-primary btn">Logged in User</button>
+    <div id="choose" class="page">
+        <label for="users">Choose user:</label>
+        <div style="text-align: end;">
+            <select name="users" id="users" class="form-select" onchange="name_change()">
+                {% for user in users %}
+                {% if user.username == request.user.username %}
+                <option value="{{ user }}" default>{{ user }}</option>
+                {% else %}
+                <option value="{{ user }}">{{ user }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+        </div>
     </div>
 </div>
-
 
 <div class="container">
     <div class="row">
@@ -93,7 +97,9 @@
                 <h1><span id="username">{{ request.user.username }}</span>'s tasks</h1>
                 <div class="card-body">
                     <form>
-                        <div class="add-items d-flex"> <input id="title" type="text" class="form-control todo-list-input" placeholder="Title"> <input id="taskInput" type="text" class="form-control todo-list-input" placeholder="Description">
+                        <div class="add-items d-flex">
+                            <input id="title" type="text" class="form-control todo-list-input" placeholder="Title">
+                            <input id="taskInput" type="text" class="form-control todo-list-input" placeholder="Description">
                             <button id="submit" class="add btn btn-primary font-weight-bold todo-list-add-btn">Add</button> 
                         </div>
                     </form>
