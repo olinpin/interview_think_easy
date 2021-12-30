@@ -10,6 +10,7 @@
 </style>
 <link rel="stylesheet" href="{% static 'css/index.css' %}">
 <script>
+    // add variables that can't be stored in the js file
     var sURL = "{% url 'tasks:addTask' %}"
     var username = "{{ request.user.username }}"
     var URLc = "{% url 'tasks:change' %}"
@@ -27,6 +28,7 @@
         // show the correct page
         document.querySelector(`#${page}`).style.display = "block";
     }    
+    // change the names and add user's tasks
     function name_change() {
         var username = document.querySelector("#users").value;
         document.querySelector("#username").innerHTML = username;
@@ -48,6 +50,7 @@
             button.id = {{ task.id }};
             li.appendChild(button);
             const div = document.createElement('div')
+            // check if the "done" field is true or false
             if ('{{ task.done }}' == "False") {
                 div.innerHTML = '<div class="todo-item"><button style="color:red"class="bi bi-x-circle-fill change" id="{{ task.id }}"></button> <span>{{ task.title }} - {{ task.text }}</span> </div>'
             } else {
@@ -59,6 +62,7 @@
             document.querySelector("#title").value = "";
         }
         {% endfor %}
+        // show the tasks that were added after the page loaded
         added.forEach(elem => {
             if(elem.username == username) {
                 document.querySelector("#todo-list").append(elem.div);

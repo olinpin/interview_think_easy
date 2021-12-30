@@ -47,6 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // don't allow the form to submit
         return false;
     }
+    // check for click events in order to 'done' field of the task
     document.addEventListener('click', event => {
         const elem = event.target;
         if (elem.className.includes("change")) {
@@ -68,6 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
             })
         }
     })
+    // change the page from one user to all users
     document.querySelectorAll('.buttons').forEach(button => {
         button.onclick = function() {
             show(button.getAttribute("name"));
