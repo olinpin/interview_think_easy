@@ -39,7 +39,7 @@ When you fill out all the fields on the registration page and click on Sign up, 
 
 When you log in, you will be redirected to the homepage.
 
-On homepage you can add tasks. And they will automatically be assigned to the user that is logged in. When you click on the red X, it will mark the task 'done' and the X will change to a green checkmark, if you click again, it will change back to X etc. When you reload, the tasks which are done, will be at the bottom.
+On homepage you can choose if you want to see the tasks of the logged in user or choose the user from a select. Then you can add tasks. And they will automatically be assigned to the user that is logged in or to the chosen user. When you click on the red X, it will mark the task 'done' and the X will change to a green checkmark, if you click again, it will change back to X etc. When you reload, the tasks which are done, will be at the bottom.
 
 If you click on the Admin, you will be redirected to the admin page, there you can add, change or delete tasks. When you click on Tasks, you can change the state of 'done' field from the list_display.
 
