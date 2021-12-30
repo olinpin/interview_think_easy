@@ -29,7 +29,7 @@ def login_view(request):
         username = request.POST["username"].lower()
         password = request.POST["password"]
         # make sure they are correct
-        user = authenticate(request, username='oliverhnat', password='Olinpin2393')
+        user = authenticate(request, username=username, password=password)
         # if credentials are correct, log user in
         if user is not None:
             login(request, user)

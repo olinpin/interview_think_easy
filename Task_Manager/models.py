@@ -13,10 +13,8 @@ class Tasks(models.Model):
     done = models.BooleanField("Done", default=False, blank=True)
 
     def __str__(self):
-        return f"{self.text}"
+        return f"{self.title} - {self.text} from {self.user}, done is {self.done}"
 
     class Meta:
-        verbose_name = "Tasks"
-        verbose_name_plural = "Tasks"
-
-#User.add_to_class('new_field', models.(Tasks, blank=True, null=True,  on_delete=models.CASCADE))
+        verbose_name = "Úkol"
+        verbose_name_plural = "Úkoly"
